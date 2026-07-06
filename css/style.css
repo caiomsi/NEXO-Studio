@@ -51,16 +51,6 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 .container{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
 
-/* ── Linhas de grade suíças ── */
-.grid-lines{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  max-width:var(--maxw);margin-inline:auto;
-  padding-inline:var(--gutter);
-  display:flex;
-}
-.grid-lines i{flex:1;border-left:1px solid var(--line-faint)}
-.grid-lines i:first-child{border-left-color:var(--line)}
-.grid-lines::after{content:'';border-left:1px solid var(--line)}
 main,.nav,.footer{position:relative;z-index:1}
 
 /* ── Tipografia base ── */
@@ -148,19 +138,59 @@ h2{font-size:clamp(2.1rem,4.6vw,3.4rem);font-optical-sizing:auto}
 .nav-toggle span{width:26px;height:2px;background:var(--ink);transition:transform .25s ease,opacity .25s ease}
 
 /* ── Hero ── */
-.hero{padding-top:clamp(3rem,7vw,5.5rem)}
+.hero{padding-top:clamp(3rem,7vw,5.5rem);overflow-x:clip}
 .hero-grid{
   display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);
   gap:clamp(2rem,5vw,4.5rem);align-items:center;
 }
 .hero-title{
-  font-size:clamp(2.6rem,6.2vw,4.9rem);
+  font-size:clamp(2.6rem,5.4vw,4.2rem);
   margin-top:1.4rem;font-weight:550;
+}
+.ht-line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.ht-inner{display:block;text-wrap:balance}
+.hl{position:relative;display:inline-block}
+.hl-swash{
+  position:absolute;left:-2%;bottom:-.22em;width:104%;height:.16em;
+  overflow:visible;pointer-events:none;
+}
+.hl-swash path{
+  stroke:var(--red);stroke-width:4.5;fill:none;stroke-linecap:round;
+  vector-effect:non-scaling-stroke;opacity:.9;
 }
 .hero-sub{margin-top:1.6rem;color:var(--ink-soft);font-size:1.125rem;max-width:30em}
 .hero-actions{margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap}
 .hero-fig{position:relative}
-.hero-fig img{border:1px solid var(--line)}
+.hero-fig img{border:1px solid var(--line);position:relative;z-index:1;background:var(--bg)}
+.hero-fig::before{
+  content:'';position:absolute;z-index:0;
+  top:-14px;right:-14px;bottom:14px;left:14px;
+  border:1px solid var(--red);
+}
+
+/* Entrada do hero — coreografia de carregamento */
+@media (prefers-reduced-motion:no-preference){
+  .anim-kicker{opacity:0;transform:translateY(14px);animation:heroRise .8s cubic-bezier(.16,1,.3,1) .1s forwards}
+  .ht-inner{transform:translateY(120%);animation:htRise .95s cubic-bezier(.16,1,.3,1) forwards}
+  .ht-line:nth-child(1) .ht-inner{animation-delay:.22s}
+  .ht-line:nth-child(2) .ht-inner{animation-delay:.34s}
+  .ht-line:nth-child(3) .ht-inner{animation-delay:.46s}
+  .anim-rise{opacity:0;transform:translateY(18px);animation:heroRise .9s cubic-bezier(.16,1,.3,1) .75s forwards}
+  .anim-rise-2{animation-delay:.9s}
+  .hero-fig{clip-path:inset(-24px -24px 100% -24px);animation:heroWipe 1.1s cubic-bezier(.6,.05,.2,1) .5s forwards}
+  .hero-fig img{transform:scale(1.12);animation:heroSettle 1.7s cubic-bezier(.16,1,.3,1) .5s forwards}
+  .hero-fig::before{opacity:0;animation:heroFrame .8s ease 1.35s forwards}
+  .hero-fig figcaption{opacity:0;animation:heroRise .7s ease 1.5s forwards}
+  .hl-swash{transform:scaleX(0);transform-origin:left center;animation:swashGrow .65s cubic-bezier(.16,1,.3,1) 1.25s forwards}
+  .nav-inner{opacity:0;animation:heroRise .7s ease .05s forwards}
+  .spec{opacity:0;animation:heroRise .9s cubic-bezier(.16,1,.3,1) 1.15s forwards}
+}
+@keyframes heroRise{to{opacity:1;transform:translateY(0)}}
+@keyframes htRise{to{transform:translateY(0)}}
+@keyframes heroWipe{to{clip-path:inset(-24px -24px -24px -24px)}}
+@keyframes heroSettle{to{transform:scale(1)}}
+@keyframes heroFrame{to{opacity:1}}
+@keyframes swashGrow{to{transform:scaleX(1)}}
 .hero-fig figcaption,.studio-fig figcaption{
   font-family:var(--font-mono);font-size:.72rem;color:var(--ink-soft);
   margin-top:.8rem;letter-spacing:.04em;
@@ -538,6 +568,8 @@ h2{font-size:clamp(2.1rem,4.6vw,3.4rem);font-optical-sizing:auto}
   .footer-links{flex-wrap:wrap;gap:.9rem 1.4rem}
 }
 @media (max-width:480px){
+  .hero .kicker{display:block;line-height:1.9}
+  .hero .kicker .x{margin-inline:.45em}
   .process-grid{grid-template-columns:1fr}
   .hero-actions .btn{width:100%;justify-content:center}
   .wiz-actions .btn{width:100%;justify-content:center}

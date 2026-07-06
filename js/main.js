@@ -69,6 +69,22 @@
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
+  /* ── Parallax suave da foto do hero ── */
+  var heroFig = document.getElementById('hero-fig');
+  if (heroFig && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var ticking = false;
+    var parallax = function () {
+      var y = window.scrollY;
+      if (y < window.innerHeight * 1.2) {
+        heroFig.style.transform = 'translateY(' + (y * 0.07).toFixed(1) + 'px)';
+      }
+      ticking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (!ticking) { window.requestAnimationFrame(parallax); ticking = true; }
+    }, { passive: true });
+  }
+
   /* ── Ano no rodapé ── */
   var year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());
