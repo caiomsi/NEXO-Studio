@@ -76,7 +76,21 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
+
+    <!-- O filamento: a luz que percorre a página inteira, do título ao rodapé -->
+    <svg class="thread" id="thread" aria-hidden="true">
+      <defs>
+        <radialGradient id="thread-halo-grad">
+          <stop offset="0%" stop-color="#e63946" stop-opacity=".15"/>
+          <stop offset="45%" stop-color="#e63946" stop-opacity=".06"/>
+          <stop offset="100%" stop-color="#e63946" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle class="thread-halo" id="thread-halo" r="240" fill="url(#thread-halo-grad)"/>
+      <path class="thread-path" id="thread-path" d="" fill="none"/>
+      <circle class="thread-nib" id="thread-nib" r="3.5"/>
+    </svg>
 
     <!-- ══════════ HERO ══════════ -->
     <section class="hero">
@@ -94,14 +108,6 @@
             <a class="btn btn-ghost" href="#trabalhos">Ver trabalhos<span class="arr" aria-hidden="true">↓</span></a>
           </div>
         </div>
-        <figure class="hero-fig" id="hero-fig">
-          <video id="hero-video" autoplay muted loop playsinline disablepictureinpicture
-                 poster="images/nexo-x-neon-escuro.jpg" width="834" height="1112"
-                 aria-label="Dois filamentos de luz vermelha cruzados formando um X na escuridão, com fumaça em movimento">
-            <source src="images/nexo-x-neon.mp4" type="video/mp4">
-          </video>
-          <figcaption><span class="fig-tag">fig. 01</span> ne·xo, s.m. — ligação, vínculo, conexão.</figcaption>
-        </figure>
       </div>
 
       <dl class="spec container">

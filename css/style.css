@@ -190,12 +190,9 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
     radial-gradient(640px 480px at 12% 8%, rgba(230,57,70,.09), transparent 65%),
     radial-gradient(900px 640px at 88% 30%, rgba(230,57,70,.05), transparent 60%);
 }
-.hero-grid{
-  display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);
-  gap:clamp(2rem,5vw,4.5rem);align-items:center;
-}
+.hero-grid{display:block}
 .hero-title{
-  font-size:clamp(1.9rem,3.6vw,3.05rem);
+  font-size:clamp(2.4rem,4.9vw,4rem);
   margin-top:1.4rem;
 }
 .ht-line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
@@ -208,14 +205,22 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
 }
 .hero-sub{margin-top:1.6rem;color:var(--soft);font-size:1.125rem;max-width:30em}
 .hero-actions{margin-top:2.4rem;display:flex;gap:1rem;flex-wrap:wrap}
-/* o X integrado à página: preto do vídeo funde com o fundo,
-   bordas dissolvem em máscara radial — luz solta na sala, sem moldura */
-.hero-fig{position:relative}
-.hero-fig video{
-  display:block;width:100%;height:auto;
-  mix-blend-mode:screen;
-  -webkit-mask-image:radial-gradient(ellipse 56% 56% at 50% 50%, #000 42%, transparent 92%);
-  mask-image:radial-gradient(ellipse 56% 56% at 50% 50%, #000 42%, transparent 92%);
+/* ── O filamento: a linha de luz que percorre a página ──
+   Desenhada por scroll (stroke-dash), com uma ponta acesa que
+   carrega um halo — a luz ilumina o que está perto dela. */
+main{position:relative}
+.thread{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:3;overflow:visible;
+}
+.thread-path{
+  stroke:var(--red-bright);stroke-width:1.6;stroke-linecap:round;
+  opacity:.9;
+  filter:drop-shadow(0 0 4px rgba(230,57,70,.8)) drop-shadow(0 0 18px rgba(230,57,70,.4));
+}
+.thread-nib{
+  fill:#ffb3b8;
+  filter:drop-shadow(0 0 5px var(--red-bright)) drop-shadow(0 0 20px var(--red));
 }
 
 /* Entrada do hero — coreografia de carregamento */
@@ -227,9 +232,7 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
   .ht-line:nth-child(3) .ht-inner{animation-delay:.46s}
   .anim-rise{opacity:0;transform:translateY(18px);animation:heroRise .9s cubic-bezier(.16,1,.3,1) .75s forwards}
   .anim-rise-2{animation-delay:.9s}
-  .hero-fig{opacity:0;animation:heroGlowIn 1.8s ease .55s forwards}
-  .hero-fig video{transform:scale(1.08);animation:heroSettle 2.2s cubic-bezier(.16,1,.3,1) .55s forwards}
-  .hero-fig figcaption{opacity:0;animation:heroRise .7s ease 1.5s forwards}
+  .thread{opacity:0;animation:heroGlowIn 1s ease 1.2s forwards}
   /* o neon liga: pisca irregular e estabiliza */
   .hl{animation:neonFlicker 1.5s linear 1.05s both}
   .nav-inner{opacity:0;animation:heroRise .7s ease .05s forwards}
@@ -238,7 +241,6 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
 @keyframes heroRise{to{opacity:1;transform:translateY(0)}}
 @keyframes htRise{to{transform:translateY(0)}}
 @keyframes heroGlowIn{to{opacity:1}}
-@keyframes heroSettle{to{transform:scale(1)}}
 @keyframes neonFlicker{
   0%,7%{color:rgba(230,57,70,.28);text-shadow:none}
   8%,10%{color:var(--red-bright);text-shadow:0 0 14px var(--glow),0 0 42px var(--glow-soft)}
@@ -247,7 +249,7 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
   24%,29%{color:rgba(230,57,70,.4);text-shadow:0 0 8px var(--glow-soft)}
   30%,100%{color:var(--red-bright);text-shadow:0 0 14px var(--glow),0 0 42px var(--glow-soft),0 0 90px var(--glow-soft)}
 }
-.hero-fig figcaption,.studio-fig figcaption{
+.studio-fig figcaption{
   font-family:var(--font-mono);font-size:.72rem;color:var(--soft);
   margin-top:.8rem;letter-spacing:.04em;
 }
@@ -624,8 +626,6 @@ h2{font-size:clamp(2rem,4.4vw,3.2rem)}
 
 /* ═══════════ Responsivo ═══════════ */
 @media (max-width:1024px){
-  .hero-grid{grid-template-columns:1fr;gap:3rem}
-  .hero-fig{max-width:480px}
   .studio-grid,.contact-grid{grid-template-columns:1fr}
   .studio-fig{position:static;max-width:560px}
   .services-list li{grid-template-columns:4rem 1fr;grid-template-rows:auto auto}
