@@ -69,6 +69,13 @@
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
+  /* ── Vídeo do hero: fica parado no poster p/ quem prefere menos movimento ── */
+  var heroVideo = document.getElementById('hero-video');
+  if (heroVideo && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    heroVideo.removeAttribute('autoplay');
+    heroVideo.pause();
+  }
+
   /* ── Parallax suave da foto do hero ── */
   var heroFig = document.getElementById('hero-fig');
   if (heroFig && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
