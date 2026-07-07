@@ -5,33 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 — NEXO STUDIO</title>
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0a0b">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{
       min-height:100dvh;display:flex;flex-direction:column;
       align-items:center;justify-content:center;gap:1.2rem;
-      background:#fff;color:#0d0d0d;text-align:center;
+      background:radial-gradient(640px 480px at 50% 35%, rgba(230,57,70,.09), transparent 65%) #0a0a0b;
+      color:#f2f0ec;text-align:center;
       font-family:'Space Mono',ui-monospace,monospace;padding:2rem;
     }
-    h1{font-family:'Bodoni Moda',Georgia,serif;font-size:clamp(6rem,20vw,12rem);font-weight:600;line-height:1}
-    h1 em{font-style:italic;color:#e63946}
-    p{letter-spacing:.08em;font-size:.85rem;color:#5f5b56;text-transform:uppercase}
-    a{
-      margin-top:1rem;display:inline-block;color:#0d0d0d;text-decoration:none;
-      border:1px solid #0d0d0d;padding:1em 1.8em;
-      font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
-      transition:background .2s ease,color .2s ease,border-color .2s ease;
+    h1{
+      font-family:'Archivo',system-ui,sans-serif;font-stretch:125%;font-weight:800;
+      font-size:clamp(6rem,20vw,12rem);line-height:1;
     }
-    a:hover{background:#e63946;border-color:#e63946;color:#fff}
+    h1 em{
+      font-style:normal;color:#ff5a66;
+      text-shadow:0 0 20px rgba(230,57,70,.35),0 0 60px rgba(230,57,70,.16);
+    }
+    @media (prefers-reduced-motion:no-preference){
+      h1 em{animation:flicker 1.5s linear .4s both}
+      @keyframes flicker{
+        0%,7%{color:rgba(230,57,70,.28);text-shadow:none}
+        8%,10%{color:#ff5a66;text-shadow:0 0 20px rgba(230,57,70,.35)}
+        11%,15%{color:rgba(230,57,70,.28);text-shadow:none}
+        16%,23%{color:#ff5a66;text-shadow:0 0 20px rgba(230,57,70,.35)}
+        24%,29%{color:rgba(230,57,70,.4);text-shadow:0 0 10px rgba(230,57,70,.16)}
+        30%,100%{color:#ff5a66;text-shadow:0 0 20px rgba(230,57,70,.35),0 0 60px rgba(230,57,70,.16)}
+      }
+    }
+    p{letter-spacing:.08em;font-size:.85rem;color:rgba(242,240,236,.58);text-transform:uppercase}
+    a{
+      margin-top:1rem;display:inline-block;color:#f2f0ec;text-decoration:none;
+      border:1px solid rgba(242,240,236,.2);padding:1em 1.8em;
+      font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+      transition:background .2s ease,color .2s ease,border-color .2s ease,box-shadow .25s ease;
+    }
+    a:hover{background:#e63946;border-color:#e63946;color:#fff;box-shadow:0 0 26px rgba(230,57,70,.35)}
   </style>
 </head>
 <body>
   <h1>4<em>0</em>4</h1>
-  <p>Página não encontrada — o nexo se perdeu.</p>
+  <p>Página não encontrada — o nexo se apagou.</p>
   <a href="./">← Voltar ao início</a>
 </body>
 </html>
