@@ -213,8 +213,14 @@ main{position:relative}
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:3;overflow:visible;
 }
+/* o fio apagado: já está lá, esperando a luz — como o tubo do neon */
+.thread-base{
+  stroke:rgba(230,57,70,.13);stroke-width:1.5;
+  stroke-linecap:round;stroke-linejoin:round;
+}
 .thread-path{
-  stroke:var(--red-bright);stroke-width:1.6;stroke-linecap:round;
+  stroke:var(--red-bright);stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;
   opacity:.9;
   filter:drop-shadow(0 0 4px rgba(230,57,70,.8)) drop-shadow(0 0 18px rgba(230,57,70,.4));
 }

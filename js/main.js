@@ -69,20 +69,21 @@
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
 
-  /* ══════════ O filamento: a luz que percorre a página ══════════
-     Um caminho SVG ancorado nas seções reais, desenhado pelo scroll
-     (stroke-dash). A ponta acesa carrega um halo que ilumina o que
-     está perto — o nexo é a luz que atravessa a página inteira. */
+  /* ══════════ O filamento: os fios que a luz percorre ══════════
+     Fios retos (verticais, horizontais e 45°) ancorados nas seções
+     reais, já visíveis apagados — o scroll acende a luz sobre eles,
+     como o neon de "conectam". No hero, o fio desenha o ✕ da marca.
+     A ponta persegue o scroll com um pequeno atraso. */
   (function () {
     var mainEl = document.getElementById('main');
     var svg = document.getElementById('thread');
     var path = document.getElementById('thread-path');
+    var base = document.getElementById('thread-base');
     var nib = document.getElementById('thread-nib');
     var halo = document.getElementById('thread-halo');
     if (!mainEl || !svg || !path) return;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var len = 0;
-    var introDone = reduce;
 
     function rel(el) {
       var r = el.getBoundingClientRect();
@@ -95,27 +96,53 @@
     }
     function q(s) { return document.querySelector(s); }
 
-    /* âncoras: margens laterais (calhas) + travessias nos vãos entre seções */
+    /* âncoras: calhas laterais + travessias nos vãos entre seções */
     function buildPoints() {
       var W = mainEl.clientWidth;
       var L = Math.max(W * .03, 16);
       var R = Math.min(W * .97, W - 16);
       var pts = [];
-      /* a luz nasce na palavra-neon do título (em telas largas) */
       var narrow = W < 720;
       var hl = q('.hl');
       var title = q('.hero-title');
-      if (!narrow && hl) {
-        var h = rel(hl);
-        pts.push([Math.min(h.right + 30, R - 200), h.cy]);
-        var sub = q('.hero-sub');
-        if (sub) { var sb = rel(sub); pts.push([R - 120, sb.cy]); }
-      } else if (title) {
-        /* no mobile a linha fica na calha, sem cruzar o texto */
-        var t = rel(title);
-        pts.push([R, t.bottom + 24]);
-      }
       var spec = q('.spec');
+      var placedX = false;
+      if (!narrow && hl && title) {
+        /* o ✕ de fio na metade vazia do hero */
+        var h = rel(hl);
+        var t = rel(title);
+        /* o h1 é bloco (ocupa a largura toda): mede o texto de verdade */
+        var tRight = 0;
+        var mLeft = mainEl.getBoundingClientRect().left;
+        title.querySelectorAll('.ht-inner').forEach(function (inner) {
+          var rg = document.createRange();
+          rg.selectNodeContents(inner);
+          tRight = Math.max(tRight, rg.getBoundingClientRect().right - mLeft);
+        });
+        if (!tRight) tRight = t.right;
+        var s = Math.max(80, Math.min(150, W * .085));
+        var yTop = t.top + 40;
+        var yBot = spec ? rel(spec).top - 60 : t.bottom + 320;
+        s = Math.min(s, Math.max(70, (yBot - yTop) / 2 - 10));
+        var cx = Math.min(R - s - 70, Math.max(tRight + s + 60, W * .74));
+        var cy = (yTop + yBot) / 2;
+        if (cx - s >= tRight + 30) {
+          pts.push([h.right + 26, h.cy]);   /* nasce no "conectam"… */
+          pts.push([cx - s, h.cy]);         /* …sai na horizontal */
+          pts.push([cx - s, cy - s]);       /* e desce ao canto sup. esquerdo */
+          pts.push([cx + s, cy + s]);       /* ✕ traço 1 (45°) */
+          pts.push([cx + s + 56, cy + s]);  /* desvio de fio pela direita… */
+          pts.push([cx + s + 56, cy - s]);
+          pts.push([cx + s, cy - s]);       /* …até o canto superior direito */
+          pts.push([cx - s, cy + s]);       /* ✕ traço 2 (cruza no centro) */
+          placedX = true;
+        }
+      }
+      if (!placedX && title) {
+        /* sem espaço p/ o ✕: a linha fica na calha, sem cruzar o texto */
+        var t2 = rel(title);
+        pts.push([R, t2.bottom + 24]);
+      }
       if (spec) { var sp = rel(spec); pts.push([R, sp.top - 40]); }
       var cards = document.querySelectorAll('.work-card');
       var work = q('.work-grid');
@@ -153,30 +180,54 @@
       return pts;
     }
 
-    /* Catmull-Rom pelas âncoras → béziers cúbicas suaves */
+    /* âncoras → fios retos: verticais, horizontais e chanfros de 45° */
     function toPathD(pts) {
       if (pts.length < 2) return '';
-      var d = 'M ' + pts[0][0].toFixed(1) + ' ' + pts[0][1].toFixed(1);
-      for (var i = 0; i < pts.length - 1; i++) {
-        var p0 = pts[i - 1] || pts[i];
-        var p1 = pts[i];
-        var p2 = pts[i + 1];
-        var p3 = pts[i + 2] || p2;
-        d += ' C ' + (p1[0] + (p2[0] - p0[0]) / 6).toFixed(1) + ' ' + (p1[1] + (p2[1] - p0[1]) / 6).toFixed(1)
-          + ', ' + (p2[0] - (p3[0] - p1[0]) / 6).toFixed(1) + ' ' + (p2[1] - (p3[1] - p1[1]) / 6).toFixed(1)
-          + ', ' + p2[0].toFixed(1) + ' ' + p2[1].toFixed(1);
+      var x = pts[0][0], y = pts[0][1];
+      var d = 'M ' + x.toFixed(1) + ' ' + y.toFixed(1);
+      function lineTo(nx, ny) {
+        x = nx; y = ny;
+        d += ' L ' + x.toFixed(1) + ' ' + y.toFixed(1);
+      }
+      for (var i = 1; i < pts.length; i++) {
+        var tx = pts[i][0], ty = pts[i][1];
+        var dx = tx - x, dy = ty - y;
+        var adx = Math.abs(dx), ady = Math.abs(dy);
+        if (adx < .5 && ady < .5) continue;
+        var sx = dx < 0 ? -1 : 1, sy = dy < 0 ? -1 : 1;
+        if (ady >= adx) {
+          /* corre na vertical e absorve o desvio num chanfro de 45° */
+          if (ady - adx > .5) lineTo(x, y + sy * (ady - adx));
+          if (adx > .5) lineTo(tx, ty); else { x = tx; y = ty; }
+        } else {
+          /* 45° primeiro, depois corre na horizontal */
+          if (ady > .5) lineTo(x + sx * ady, ty);
+          lineTo(tx, ty);
+        }
       }
       return d;
     }
 
-    /* o caminho é monotônico em y: busca binária pelo comprimento na altura da ponta */
-    function lenAtY(targetY) {
-      var lo = 0, hi = len;
-      for (var i = 0; i < 18; i++) {
-        var mid = (lo + hi) / 2;
-        if (path.getPointAtLength(mid).y < targetY) { lo = mid; } else { hi = mid; }
+    /* o desvio do ✕ sobe, então y não é monotônico: amostra o caminho
+       uma vez e guarda o y-máximo acumulado (esse sim, monotônico) */
+    var samples = [];
+    function buildSamples() {
+      samples = [];
+      var maxY = -Infinity;
+      for (var l = 0; l <= len; l += 16) {
+        var pt = path.getPointAtLength(l);
+        if (pt.y > maxY) maxY = pt.y;
+        samples.push([l, maxY]);
       }
-      return (lo + hi) / 2;
+      samples.push([len, Math.max(maxY, mainEl.offsetHeight)]);
+    }
+    function lenAtY(targetY) {
+      var lo = 0, hi = samples.length - 1;
+      while (lo < hi) {
+        var mid = (lo + hi) >> 1;
+        if (samples[mid][1] < targetY) { lo = mid + 1; } else { hi = mid; }
+      }
+      return samples[lo][0];
     }
     function tipTarget() {
       var tipY = window.innerHeight * 0.75 - mainEl.getBoundingClientRect().top;
@@ -191,12 +242,35 @@
       if (halo) { halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y); }
     }
 
+    /* a luz persegue o scroll com um pequeno atraso */
+    var current = 0;
+    var target = 0;
+    var chasing = false;
+    function chase() {
+      var diff = target - current;
+      if (Math.abs(diff) < .5) {
+        current = target;
+        setDrawn(current);
+        chasing = false;
+        return;
+      }
+      current += diff * .085;
+      setDrawn(current);
+      window.requestAnimationFrame(chase);
+    }
+    function setTarget(v) {
+      target = v;
+      if (!chasing) { chasing = true; window.requestAnimationFrame(chase); }
+    }
+
     function build() {
       var d = toPathD(buildPoints());
       if (!d) return;
       svg.setAttribute('viewBox', '0 0 ' + mainEl.clientWidth + ' ' + mainEl.offsetHeight);
+      if (base) base.setAttribute('d', d);
       path.setAttribute('d', d);
       len = path.getTotalLength();
+      buildSamples();
       if (halo) halo.setAttribute('r', String(Math.round(Math.min(280, Math.max(140, mainEl.clientWidth * .17)))));
       if (reduce) {
         path.style.strokeDasharray = 'none';
@@ -204,29 +278,10 @@
         if (halo) halo.style.display = 'none';
       } else {
         path.style.strokeDasharray = len + ' ' + len;
-        setDrawn(introDone ? tipTarget() : 0);
+        current = Math.min(current, len);
+        target = Math.min(target, len);
+        setDrawn(current);
       }
-    }
-
-    /* entrada: depois da coreografia do hero, a luz flui do título até a ponta */
-    function runIntro() {
-      if (introDone || !len) { introDone = true; return; }
-      path.style.transition = 'stroke-dashoffset 1.3s cubic-bezier(.3,0,.2,1)';
-      path.style.strokeDashoffset = String(len - tipTarget());
-      var follow = function () {
-        if (introDone) return;
-        var off = parseFloat(window.getComputedStyle(path).strokeDashoffset) || len;
-        var pt = path.getPointAtLength(Math.max(0, len - off));
-        if (nib) { nib.setAttribute('cx', pt.x); nib.setAttribute('cy', pt.y); }
-        if (halo) { halo.setAttribute('cx', pt.x); halo.setAttribute('cy', pt.y); }
-        window.requestAnimationFrame(follow);
-      };
-      window.requestAnimationFrame(follow);
-      window.setTimeout(function () {
-        path.style.transition = 'none';
-        introDone = true;
-        setDrawn(tipTarget());
-      }, 1350);
     }
 
     build();
@@ -237,12 +292,19 @@
         if (!threadTicking) {
           threadTicking = true;
           window.requestAnimationFrame(function () {
-            if (len && introDone) setDrawn(tipTarget());
+            if (len) setTarget(tipTarget());
             threadTicking = false;
           });
         }
       }, { passive: true });
-      window.setTimeout(runIntro, 1500);
+      /* entrada: depois da coreografia do hero, a luz flui de "conectam"
+         até a posição de leitura — a mesma perseguição faz a animação.
+         Reconstrói antes: durante a coreografia o título está transladado
+         (translateY nas .ht-inner) e as medidas sairiam erradas. */
+      window.setTimeout(function () {
+        build();
+        if (len) setTarget(tipTarget());
+      }, 1400);
     }
     var rebuildTimer = null;
     window.addEventListener('resize', function () {
