@@ -12,7 +12,7 @@ conventions.
 ## Structure
 
 `index.html` at root, `css/style.css`, `js/main.js`, `404.html`. In `images/`:
-portfolio thumbnails (`work-bluepipe.jpg`, `work-brasa-e-sal.jpg`,
+portfolio thumbnails (`work-bluepipe.jpg`,
 `work-maple-and-bean.jpg`, `work-photofolio.jpg`, `work-strata.jpg`,
 `work-verso-coffee.jpg` — keep in sync as the portfolio grows), `nexo-estudio-noite.jpg`
 (studio photo), `nexo-og.jpg` (OG card), `nexo-logo-original.svg`. No custom domain yet
