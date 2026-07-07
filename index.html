@@ -53,10 +53,12 @@
 </head>
 <body id="top">
 
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
   <!-- ══════════ NAV ══════════ -->
   <header class="nav" id="nav">
     <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="NEXO STUDIO — voltar ao início">
+      <a class="brand" href="#top" aria-label="NEXO STUDIO — voltar ao início" translate="no">
         <span class="brand-word">NE<em>X</em>O</span>
         <span class="brand-sub">STUDIO</span>
       </a>
@@ -298,7 +300,7 @@
         <div class="price-grid">
           <article class="price-card reveal">
             <h3>Landing page</h3>
-            <p class="price"><span class="from">a partir de</span>R$ 1.200</p>
+            <p class="price"><span class="from">a partir de</span>R$&nbsp;1.200</p>
             <ul>
               <li>Uma página, um objetivo</li>
               <li>Texto e design sob medida</li>
@@ -311,7 +313,7 @@
           <article class="price-card is-featured reveal">
             <p class="flag">Mais escolhido</p>
             <h3>Site completo</h3>
-            <p class="price"><span class="from">a partir de</span>R$ 2.500</p>
+            <p class="price"><span class="from">a partir de</span>R$&nbsp;2.500</p>
             <ul>
               <li>Até 6 seções ou páginas</li>
               <li>SEO local + Google configurado</li>
@@ -334,7 +336,7 @@
           </article>
         </div>
 
-        <p class="price-note reveal">Manutenção mensal opcional a partir de <strong>R$ 150/mês</strong> — ajustes, conteúdo e melhorias contínuas.</p>
+        <p class="price-note reveal">Manutenção mensal opcional a partir de <strong>R$&nbsp;150/mês</strong> — ajustes, conteúdo e melhorias contínuas.</p>
       </div>
     </section>
 
@@ -394,45 +396,45 @@
           <!-- Passo 1 -->
           <fieldset class="wiz-step is-active" data-step="1">
             <legend>O que você precisa?</legend>
-            <div class="chips" data-field="projectType" data-required="true">
-              <button type="button" class="chip" data-value="Site novo">Site novo</button>
-              <button type="button" class="chip" data-value="Redesign de site">Redesign</button>
-              <button type="button" class="chip" data-value="Landing page">Landing page</button>
-              <button type="button" class="chip" data-value="E-commerce / loja">E-commerce</button>
-              <button type="button" class="chip" data-value="Cardápio ou sistema">Cardápio / sistema</button>
-              <button type="button" class="chip" data-value="Ainda não sei">Ainda não sei</button>
+            <div class="chips" data-field="projectType" data-required="true" role="group" aria-label="O que você precisa">
+              <button type="button" class="chip" aria-pressed="false" data-value="Site novo">Site novo</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Redesign de site">Redesign</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Landing page">Landing page</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="E-commerce / loja">E-commerce</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Cardápio ou sistema">Cardápio / sistema</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Ainda não sei">Ainda não sei</button>
             </div>
-            <p class="wiz-error" hidden>Escolha uma opção para continuar.</p>
+            <p class="wiz-error" role="alert" aria-live="polite" hidden>Escolha uma opção para continuar.</p>
           </fieldset>
 
           <!-- Passo 2 -->
           <fieldset class="wiz-step" data-step="2">
             <legend>Sobre o seu negócio</legend>
 
-            <p class="wiz-q">Segmento</p>
-            <div class="chips" data-field="segment" data-required="true">
-              <button type="button" class="chip" data-value="Restaurante e comida">Restaurante &amp; comida</button>
-              <button type="button" class="chip" data-value="Comércio e loja">Comércio &amp; loja</button>
-              <button type="button" class="chip" data-value="Serviços">Serviços</button>
-              <button type="button" class="chip" data-value="Saúde e beleza">Saúde &amp; beleza</button>
-              <button type="button" class="chip" data-value="Outro">Outro</button>
+            <p class="wiz-q" id="q-segment">Segmento</p>
+            <div class="chips" data-field="segment" data-required="true" role="group" aria-labelledby="q-segment">
+              <button type="button" class="chip" aria-pressed="false" data-value="Restaurante e comida">Restaurante &amp; comida</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Comércio e loja">Comércio &amp; loja</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Serviços">Serviços</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Saúde e beleza">Saúde &amp; beleza</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Outro">Outro</button>
             </div>
 
-            <p class="wiz-q">Prazo</p>
-            <div class="chips" data-field="deadline" data-required="true">
-              <button type="button" class="chip" data-value="Para ontem">Para ontem</button>
-              <button type="button" class="chip" data-value="Próximas semanas">Próximas semanas</button>
-              <button type="button" class="chip" data-value="Sem pressa">Sem pressa</button>
+            <p class="wiz-q" id="q-deadline">Prazo</p>
+            <div class="chips" data-field="deadline" data-required="true" role="group" aria-labelledby="q-deadline">
+              <button type="button" class="chip" aria-pressed="false" data-value="Para ontem">Para ontem</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Próximas semanas">Próximas semanas</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Sem pressa">Sem pressa</button>
             </div>
 
-            <p class="wiz-q">Investimento</p>
-            <div class="chips" data-field="budget" data-required="true">
-              <button type="button" class="chip" data-value="Até R$ 1.500">Até R$ 1.500</button>
-              <button type="button" class="chip" data-value="R$ 1.500 a 3.000">R$ 1.500–3.000</button>
-              <button type="button" class="chip" data-value="Acima de R$ 3.000">R$ 3.000+</button>
-              <button type="button" class="chip" data-value="Ainda não definido">Ainda não sei</button>
+            <p class="wiz-q" id="q-budget">Investimento</p>
+            <div class="chips" data-field="budget" data-required="true" role="group" aria-labelledby="q-budget">
+              <button type="button" class="chip" aria-pressed="false" data-value="Até R$ 1.500">Até R$&nbsp;1.500</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="R$ 1.500 a 3.000">R$&nbsp;1.500–3.000</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Acima de R$ 3.000">R$&nbsp;3.000+</button>
+              <button type="button" class="chip" aria-pressed="false" data-value="Ainda não definido">Ainda não sei</button>
             </div>
-            <p class="wiz-error" hidden>Escolha uma opção em cada grupo.</p>
+            <p class="wiz-error" role="alert" aria-live="polite" hidden>Escolha uma opção em cada grupo.</p>
           </fieldset>
 
           <!-- Passo 3 -->
@@ -450,11 +452,11 @@
             <div class="field-row">
               <div class="field">
                 <label for="bf-email">E-mail *</label>
-                <input type="email" id="bf-email" name="email" autocomplete="email" inputmode="email" required>
+                <input type="email" id="bf-email" name="email" autocomplete="email" inputmode="email" spellcheck="false" required>
               </div>
               <div class="field">
                 <label for="bf-whats">Seu WhatsApp</label>
-                <input type="tel" id="bf-whats" name="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(DDD) 90000-0000">
+                <input type="tel" id="bf-whats" name="whatsapp" autocomplete="tel" inputmode="tel" spellcheck="false" placeholder="(34) 90000-0000…">
               </div>
             </div>
             <div class="field">
@@ -467,7 +469,7 @@
               <label for="bf-company">Empresa</label>
               <input type="text" id="bf-company" name="company" tabindex="-1" autocomplete="off">
             </div>
-            <p class="wiz-error" hidden>Preencha seu nome e um e-mail válido.</p>
+            <p class="wiz-error" role="alert" aria-live="polite" hidden>Preencha seu nome e um e-mail válido.</p>
           </fieldset>
 
           <!-- Sucesso -->
@@ -496,7 +498,7 @@
   <!-- ══════════ FOOTER ══════════ -->
   <footer class="footer">
     <div class="container">
-      <p class="footer-word" aria-hidden="true">NE<em>X</em>O</p>
+      <p class="footer-word" aria-hidden="true" translate="no">NE<em>X</em>O</p>
       <div class="footer-row">
         <p class="footer-copy">© <span id="year">2026</span> NEXO STUDIO — feito à mão no Brasil.</p>
         <nav aria-label="Rodapé">

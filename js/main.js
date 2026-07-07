@@ -358,8 +358,12 @@
     group.addEventListener('click', function (e) {
       var chip = e.target.closest('.chip');
       if (!chip) return;
-      group.querySelectorAll('.chip').forEach(function (c) { c.classList.remove('is-selected'); });
+      group.querySelectorAll('.chip').forEach(function (c) {
+        c.classList.remove('is-selected');
+        c.setAttribute('aria-pressed', 'false');
+      });
       chip.classList.add('is-selected');
+      chip.setAttribute('aria-pressed', 'true');
       answers[group.dataset.field] = chip.dataset.value;
       hideError(group.closest('.wiz-step'));
       /* passo 1 tem uma pergunta só: avança sozinho */
@@ -388,18 +392,30 @@
     if (n === 3) {
       var name = document.getElementById('bf-name');
       var email = document.getElementById('bf-email');
+      var nameBad = !name.value.trim();
       var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-      name.classList.toggle('is-invalid', !name.value.trim());
+      name.classList.toggle('is-invalid', nameBad);
       email.classList.toggle('is-invalid', !emailOk);
-      if (!name.value.trim() || !emailOk) { showError(step); return false; }
+      if (nameBad || !emailOk) {
+        showError(step);
+        (nameBad ? name : email).focus(); /* foca o primeiro campo com erro */
+        return false;
+      }
       return true;
     }
     var groups = step.querySelectorAll('.chips[data-required="true"]');
     var ok = true;
+    var firstMissing = null;
     groups.forEach(function (g) {
-      if (!answers[g.dataset.field]) ok = false;
+      if (!answers[g.dataset.field]) {
+        ok = false;
+        if (!firstMissing) firstMissing = g.querySelector('.chip');
+      }
     });
-    if (!ok) showError(step);
+    if (!ok) {
+      showError(step);
+      if (firstMissing) firstMissing.focus(); /* foca o primeiro grupo pendente */
+    }
     return ok;
   }
 
