@@ -15,8 +15,9 @@ conventions.
 portfolio thumbnails (`work-bluepipe.jpg`,
 `work-maple-and-bean.jpg`, `work-photofolio.jpg`, `work-strata.jpg`,
 `work-verso-coffee.jpg` — keep in sync as the portfolio grows), `nexo-estudio-noite.jpg`
-(studio photo), `nexo-og.jpg` (OG card), `nexo-logo-original.svg`. No custom domain yet
-(`caiomsi.github.io/NEXO-Studio`).
+(studio photo), `nexo-og.jpg` (OG card), `nexo-logo-original.svg`. Custom domain
+`nexostudioudi.com.br` is live (see `CNAME`) — keep canonical/OG URLs and JSON-LD in
+sync with it, not the old `caiomsi.github.io/NEXO-Studio` GitHub Pages URL.
 
 ## Design language
 
